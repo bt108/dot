@@ -1,0 +1,8 @@
+# Ignore all . folders but include files
+.*/
+# Allow .config and .local/bin folders
+!.config/
+!.local/bin/
+# Allow .files inside them (maybe redundant?)
+!.config/**
+!.local/bin/**

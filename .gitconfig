@@ -1,0 +1,64 @@
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    #dark = true      # or light = true, or omit for auto-detection
+
+[merge]
+    conflictStyle = zdiff3
+
+[alias]
+    # Essential Shorthands
+    s = status                  # Show working tree status
+    co = checkout               # Switch branches or restore files
+    br = branch                 # List, create, or delete branches
+    brs = branches              # List all local and remote branches
+    branches = branch -a        # List all local and remote branches
+    c = commit                  # Regular commit
+    cm = commit -m              # Commit with inline message
+    ca = amend                  # Amend the last commit
+    can = amend --no-edit       # Amend the last commit with no message edit
+    amend = commit --amend      # Amend the last commit
+
+    # Workflow Boosters
+    grepl = grep -E --line-number   # Search repo with regex and line numbers
+    discard = checkout --           # Discard local changes to a file
+    untrack = rm --cached           # Remove file from version control but keep it locally
+    abort = rebase --abort          # Abort an in-progress rebase
+    uncommit = reset --soft HEAD^   # Undo last commit but keep changes staged
+    unstage = reset -q HEAD --      # Remove file from staging area
+    showRef = show-ref --abbrev     # Show refs in abbreviated format
+    peeps = shortlog -n -e -s       # List contributors by number of commits
+    # List all defined aliases
+    aliases = "!git config -l | grep alias | cut -c 7-"
+    # Simple one-liner commit graph
+    lo = log --graph --decorate --pretty=oneline --abbrev-commit
+    # show diff of commit
+    showcommit = log -p -1 # <commit-hash>
+
+    # Power Tools
+    # Print current Git identity
+    whoami = "!git config user.name && git config user.email"
+    # Show remote info (defaults to origin)
+    info = "!sh -c '[ $# -ne 0 ] && git remote show $1 && exit 0 || \
+        [ $# -eq 0 ] && git remote show origin && exit 0' -"
+    # Colorful log with author and relative date
+    logPretty = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset \
+        %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    # Count lines of code per author
+    peepsLoC = "!git ls-files | xargs -n1 git blame --line-porcelain | sed \
+        -n 's/^author //p' | sort -f | uniq -ic | sort -nr"
+    # File & Branch Helpers
+    find = "!git ls-files | grep -i" # Search files tracked by git (case-insensitive)
+    # Visualize difference between two branches
+    diffBranches = "!f() { echo \"Showing ${1}..${2}\"; git log --graph \
+        --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset  %s %Cgreen(%cr)%Creset' \
+        --abbrev-commit --date=relative \"$1\"..\"$2\"; }; f"
+
+[user]
+	email = t108.servant@gmail.com
+	name = thomas
