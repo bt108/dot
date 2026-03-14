@@ -96,6 +96,8 @@ map('n', 'gj', 'j', { noremap = true, silent = true })
 map('n', 'k', 'gk', { noremap = true, silent = true })
 map('n', 'gk', 'k', { noremap = true, silent = true })
 map({"n", "x", "o"}, "s", "<Plug>(leap)")
+noremap('n', '<c-j>', 'Lzz') -- page down 'scrolloff' as overlap
+noremap('n', '<c-k>', 'Hzz') -- page up 'scrolloff' as overlap
 
 -- UI
 map('n', '<leader>uf', ':Goyo<CR>', { noremap = true, silent = true }) --focus mode
