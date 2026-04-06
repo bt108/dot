@@ -45,11 +45,11 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
-  # Set up virtualisation
-  programs.virt-manager.enable = true;
-  users.groups.libvirtd.members = ["taraka"];
-  virtualisation.libvirtd.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
+  ## Set up virtualisation
+  # programs.virt-manager.enable = true;
+  # users.groups.libvirtd.members = ["taraka"];
+  # virtualisation.libvirtd.enable = true;
+  # virtualisation.spiceUSBRedirection.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -113,7 +113,14 @@
     fish = {
       enable = true;
       shellAbbrs = {
-    	nv = "nvim";
+        nv = "nvim";
+        cmpbook = "zathura book.pdf & latexmk -lualatex -pvc book.tex";
+        yta = "yt-dlp -x --audio-format best --no-keep-video";
+        ytv = "yt-dlp -f 'best[height<=720]'"; # Video
+        ytl = "yt-dlp --hls-use-mpegts"; # Live
+        ytp = "yt-dlp -o '%(playlist_index)s - %(title)s.%(ext)s'"; # Playlist
+        ytt = "yt-dlp --skip-download --write-subs --write-auto-subs --sub-lang en --sub-format ttml --convert-subs srt"; # Transcript
+
       };
     };
     neovim = {
@@ -122,12 +129,17 @@
       vimAlias = true;
       viAlias = true;
     };
+    noisetorch.enable = true;
   };
    
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    fishPlugins.sponge
+    fishPlugins.z
+    moreutils
     lua
+    perl
     fzf
     fd
     bat # cat + synatx highlighting
@@ -136,15 +148,24 @@
     ripgrep-all
     git
     wget
-    katana
+    katana # Keybord mods
     kitty
     texliveFull
+    pandoc
     zathura
     zathuraPkgs.zathura_pdf_mupdf
     koreader
     calibre
     gnumake
-    lua54Packages.luarocks
+    lua54Packages.luarocks # for LazyVim
+    libreoffice
+    yt-dlp
+    deno # for yt-dlp
+    mpv
+    gimp-with-plugins
+    vnstat # Bandwith monitoring
+    wineWow64Packages.stableFull_11
+    wineWow64Packages.waylandFull
   ];
 
   fonts.packages = with pkgs; [
@@ -202,7 +223,8 @@
       };
     };
   };
-
+  # Monitor and log Bandwith
+  services.vnstat.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
