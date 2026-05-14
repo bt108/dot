@@ -6,3 +6,7 @@
 # Allow .files inside them (maybe redundant?)
 !.config/**
 !.local/bin/**
+# Allow Claude Code config files (not sessions/cache)
+!.claude/
+!.claude/settings.json
+!.claude/statusline-command.sh
