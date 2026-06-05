@@ -1,6 +1,7 @@
 local global = vim.g
 local o = vim.opt
 
+o.clipboard:append { 'unnamed', 'unnamedplus' }
 --o.ignorecase = true     -- ignore case in search patterns
 o.smartcase = true      -- smart case
 o.smartindent = false    -- make indenting smarter again

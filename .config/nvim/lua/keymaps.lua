@@ -67,16 +67,16 @@ map('n', 'Q', 'gq', { noremap = true, silent = true }) -- hard wrap
 --map('n', 'q:', '<Cmd>echo "command window disabled"<CR>') -- I hit it by exident when trying to :q
 
 -- Yank Paste Primary register
-map('n', '<leader>y', '"+y', { desc = 'Yank to clipboard'})
-map('v', '<leader>y', '"+y', { desc = 'Yank to clipboard'})
+map('n', '<leader>y', '"*y', { desc = 'Yank to clipboard'})
+map('v', '<leader>y', '"*y', { desc = 'Yank to clipboard'})
 
-map('n', '<leader>Y', '"+y$', { desc = 'Yank until EOL to clipboard'})
-map('v', '<leader>Y', '"+y$', { desc = 'Yank until EOL to clipboard'})
+map('n', '<leader>Y', '"*y$', { desc = 'Yank until EOL to clipboard'})
+map('v', '<leader>Y', '"*y$', { desc = 'Yank until EOL to clipboard'})
 
-map('n', '<leader>p', '"+p', { desc = 'Paste after cursor from clipboard' })
-map('v', '<leader>p', '"_d"+P', { desc = 'Paste after cursor from clipboard (no yank)' })
+map('n', '<leader>p', '"*p', { desc = 'Paste after cursor from clipboard' })
+map('v', '<leader>p', '"_d"*P', { desc = 'Paste after cursor from clipboard (no yank)' })
 
-map('n', '<leader>P', '"+P', { desc = 'Paste before cursor from clipboard' })
+map('n', '<leader>P', '"*P', { desc = 'Paste before cursor from clipboard' })
 
 -- Yank Paste Selection register
 -- map('n', '<leader><leader>y', '"*y', { desc = 'Yank to selection clipboard'})
