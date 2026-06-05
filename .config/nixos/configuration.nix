@@ -13,6 +13,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -28,7 +29,7 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Asia/Kolkata";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -65,7 +66,7 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -86,6 +87,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  xdg.terminal-exec = {
+    enable = true;
+    settings.default = [ "kitty.desktop" ];
+  };
 
   users.defaultUserShell = pkgs.fish;
 
@@ -115,12 +120,14 @@
       shellAbbrs = {
         nv = "nvim";
         cmpbook = "zathura book.pdf & latexmk -lualatex -pvc book.tex";
-        yta = "yt-dlp -x --audio-format best --no-keep-video";
-        ytv = "yt-dlp -f 'best[height<=720]'"; # Video
+        yta = "systemd-inhibit --what=idle:sleep --why='ytdlp download' -- yt-dlp -x --audio-format best --no-keep-video";
+        ytv = "systemd-inhibit --what=idle:sleep --why='ytdlp download' -- yt-dlp -f 'best[height<=720]'"; # Video
         ytl = "yt-dlp --hls-use-mpegts"; # Live
-        ytp = "yt-dlp -o '%(playlist_index)s - %(title)s.%(ext)s'"; # Playlist
-        ytt = "yt-dlp --skip-download --write-subs --write-auto-subs --sub-lang en --sub-format ttml --convert-subs srt"; # Transcript
-
+        ytp = "systemd-inhibit --what=idle:sleep --why='ytdlp download' -- yt-dlp -o '%(playlist_index)s - %(title)s.%(ext)s'"; # Playlist
+        ytt = "systemd-inhibit --what=idle:sleep --why='ytdlp download' -- yt-dlp --skip-download --write-subs --write-auto-subs --sub-lang en --sub-format ttml --convert-subs srt"; # Transcript
+        cnx = "nvim ~/.config/nixos/configuration.nix";
+        cnxr = "sudo nixos-rebuild switch";
+        cnxru = "sudo nixos-rebuild switch --upgrade";
       };
     };
     neovim = {
@@ -135,11 +142,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    fishPlugins.sponge
     fishPlugins.z
+    ungoogled-chromium
     moreutils
     lua
     perl
+    go
+    nodejs_24
+    python3
     fzf
     fd
     bat # cat + synatx highlighting
@@ -147,11 +157,14 @@
     ripgrep
     ripgrep-all
     git
+    jq # cli json processor
+    lf # cli file manager
     wget
     katana # Keybord mods
     kitty
     texliveFull
     pandoc
+    mupdf
     zathura
     zathuraPkgs.zathura_pdf_mupdf
     koreader
@@ -165,7 +178,15 @@
     gimp-with-plugins
     vnstat # Bandwith monitoring
     wineWow64Packages.stableFull_11
-    wineWow64Packages.waylandFull
+    htop
+    filezilla
+    fatsort
+    neofetch
+    rclone
+    #AI related
+    claude-code
+    codex
+    bun # Npm alternative used by the hip folks
   ];
 
   fonts.packages = with pkgs; [
@@ -184,6 +205,7 @@
 
   # List services that you want to enable:
 
+  services.languagetool.enable = false;
   services.kanata = {
     enable = true;
     keyboards = {
